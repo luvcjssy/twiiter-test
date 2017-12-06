@@ -1,1 +1,46 @@
-<h1>Hello world!!!</h1>
+<div class="panel follow">
+    <h1>Twitter's tweets</h1>
+    <%= link_to '', class: 'btn btn-primary' do %>
+      <i class="glyphicon glyphicon-plus"></i>
+      Follow
+    <% end %>
+</div>
+
+<br>
+<% @tweets.each do |tweet| %>
+  <div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+      <div class="timeline-image">
+        <!-- Show user avatar (profile pic)-->
+        <img class="img-circle" src= '<%= image_path(tweet.user.profile_image_url_https.to_s.gsub('_normal','')) %>' alt="">
+      </div>
+      <div class="timeline-heading">
+        <!-- Show user name -->
+        <h4 class="heading"><%= tweet.user.name %></h4>
+        &nbsp;&nbsp;
+        <h4 class="subheading"><%= "@#{tweet.user.screen_name}"  %> </h4>
+      </div>
+      <div class="pull-right" style="line-height:3.5em;">
+        <%= time_ago_in_words(tweet.created_at) %>
+      </div>
+    </div>
+    <div class="panel-body">
+      <p class="text-muted"> <%= tweet.text%> </p>
+    </div>
+
+    <!-- List group -->
+    <ul class="list-group">
+      <li class="list-group-item">
+        <span>
+          <i class="glyphicon glyphicon-retweet"></i>
+          <%= tweet.retweet_count %>
+        </span>
+        <span>
+          <i class="glyphicon glyphicon-heart-empty"></i>
+          <%= tweet.favorite_count %>
+        </span>
+      </li>
+    </ul>
+  </div>
+<% end %>
