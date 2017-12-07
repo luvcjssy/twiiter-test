@@ -6,15 +6,18 @@ class PagesController < ApplicationController
     @tweets = @client.user_timeline('twitter', count: 200)
   end
 
+  # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
   def retweet
     begin
       client.retweet params[:tweet_id]
-      flash[:notice] = "You have already retweeted this tweet with id is #{params[:tweet_id]}."
+      flash[:notice] = "You have already retweeted this tweet
+                        with id is #{params[:tweet_id]}."
     rescue Twitter::Error::Forbidden
       begin
         client.unretweet params[:tweet_id]
         client.retweet params[:tweet_id]
-        flash[:notice] = "You have already retweeted this tweet with id is #{params[:tweet_id]}."
+        flash[:notice] = "You have already retweeted this tweet
+                          with id is #{params[:tweet_id]}."
       rescue Twitter::Error::Forbidden => e
         puts e.message
       end
@@ -37,6 +40,7 @@ class PagesController < ApplicationController
 
   private
 
+  # rubocop:disable Metrics/LineLength
   def client
     @client = Twitter::REST::Client.new do |config|
       config.consumer_key        = Rails.application.secrets.twitter_app_id
