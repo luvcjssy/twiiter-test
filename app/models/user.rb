@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
           email: data.email,
           uid: access_token.uid,
           image: data.image,
-          password: Devise.friendly_token[0,20]
+          password: Devise.friendly_token[0, 20]
         )
       end
     end

@@ -6,6 +6,35 @@ class PagesController < ApplicationController
     @tweets = @client.user_timeline('twitter', count: 200)
   end
 
+  def retweet
+    begin
+      client.retweet params[:tweet_id]
+      flash[:notice] = "You have already retweeted this tweet with id is #{params[:tweet_id]}."
+    rescue Twitter::Error::Forbidden
+      begin
+        client.unretweet params[:tweet_id]
+        client.retweet params[:tweet_id]
+        flash[:notice] = "You have already retweeted this tweet with id is #{params[:tweet_id]}."
+      rescue Twitter::Error::Forbidden => e
+        puts e.message
+      end
+    end
+
+    redirect_to root_path
+  end
+
+  def follow
+    if @client.friendship?(@client.user, 'twitter')
+      @client.unfollow('twitter')
+      flash[:notice] = 'You have already unfollowed Twitter.'
+    else
+      @client.follow('twitter')
+      flash[:notice] = 'You have already followed Twitter.'
+    end
+
+    redirect_to root_path
+  end
+
   private
 
   def client

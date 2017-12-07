@@ -25,6 +25,9 @@
 ul.list-group {
   span {
     padding-left: inherit;
+    vertical-align: -webkit-baseline-middle;
+    vertical-align: -moz-baseline-middle;
+    vertical-align: -ms-baseline-middle;
   }
 }
 

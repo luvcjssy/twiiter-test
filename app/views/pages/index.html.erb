@@ -1,8 +1,15 @@
 <div class="panel follow">
     <h1>Twitter's tweets</h1>
-    <%= link_to '', class: 'btn btn-primary' do %>
-      <i class="glyphicon glyphicon-plus"></i>
-      Follow
+    <% if @client.friendship?(@client.user, 'twitter') %>
+      <%= link_to follow_path, class: 'btn btn-danger' do %>
+        <i class="glyphicon glyphicon-remove"></i>
+        Unfollow
+      <% end %>
+    <% else %>
+      <%= link_to follow_path, class: 'btn btn-primary' do %>
+        <i class="glyphicon glyphicon-plus"></i>
+        Follow
+      <% end %>
     <% end %>
 </div>
 
@@ -31,7 +38,7 @@
 
     <!-- List group -->
     <ul class="list-group">
-      <li class="list-group-item">
+      <li class="list-group-item clearfix">
         <span>
           <i class="glyphicon glyphicon-retweet"></i>
           <%= tweet.retweet_count %>
@@ -39,6 +46,12 @@
         <span>
           <i class="glyphicon glyphicon-heart-empty"></i>
           <%= tweet.favorite_count %>
+        </span>
+        <span class="pull-right">
+          <%= link_to retweet_path(tweet.id), class: 'btn btn-default' do %>
+            <i class="glyphicon glyphicon-share"></i>
+            Retweet
+          <% end %>
         </span>
       </li>
     </ul>
